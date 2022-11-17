@@ -132,11 +132,11 @@ func CurrentUser(ctx *fiber.Ctx) error {
 	expires := claims.Expires
 
 	// Checking, if now time greather than expiration from JWT.
-	if now > expires {
+	if now >= expires {
 		// Return status 401 and unauthorized error message.
 		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"error": true,
-			"msg":   "unauthorized, check expiration time of your token",
+			"msg":   "unauthorized, your token has expired",
 		})
 	}
 

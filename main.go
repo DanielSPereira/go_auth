@@ -12,8 +12,8 @@ func main() {
 
 	middleware.Fiber(app)
 
-	routes.PublicRoutes(app)
 	routes.PrivateRoutes(app)
+	routes.PublicRoutes(app)
 
 	app.Listen(":5001")
 }

@@ -41,11 +41,11 @@ func GenerateAccessToken(userId string) (string, error) {
 	claims := jwt.MapClaims{}
 
 	// get expiration_in_milliseconds
-	expirationInMilliseconds, _ := strconv.Atoi(os.Getenv("ACCESS_TOKEN_EXPIRATION_IN_MILISECONDS"))
+	expirationInMinutes, _ := strconv.Atoi(os.Getenv("ACCESS_TOKEN_EXPIRATION_IN_MINUTES"))
 
 	// define claims for the token
 	claims["id"] = userId
-	claims["expires"] = time.Now().Add(time.Millisecond * time.Duration(expirationInMilliseconds))
+	claims["expires"] = time.Now().Add(time.Minute * time.Duration(expirationInMinutes)).Unix()
 
 	// get JWT secret
 	jwtSecret := os.Getenv("secret")
@@ -69,9 +69,9 @@ func GenerateRefreshToken() (string, error) {
 		return "", err
 	}
 
-	expirationInMilliseconds, _ := strconv.Atoi(os.Getenv("REFRESH_TOKEN_EXPIRATION_IN_MILISECONDS"))
+	expirationInMinutes, _ := strconv.Atoi(os.Getenv("REFRESH_TOKEN_EXPIRATION_IN_MINUTES"))
 
-	expirationTime := fmt.Sprint(time.Now().Add(time.Millisecond * time.Duration(expirationInMilliseconds)).Unix())
+	expirationTime := fmt.Sprint(time.Now().Add(time.Minute * time.Duration(expirationInMinutes)).Unix())
 
 	refreshToken := hex.EncodeToString(hash.Sum(nil)) + "." + expirationTime
 
